@@ -1,0 +1,31 @@
+.parentDiv{
+     display: grid;
+     align-items: center;
+     justify-content: center;
+     height: 100vh;
+}
+
+.main_product{
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-wrap: wrap;
+
+      
+}
+
+.card_product{
+       margin:2px;
+      
+}
+
+
+
+.prd_disc{
+      width:400px; /* Customise it accordingly */
+      max-height:200; /* Customise it accordingly */
+      white-space: initial;
+      overflow: hidden;
+      text-overflow: ellipsis;
+}
+
