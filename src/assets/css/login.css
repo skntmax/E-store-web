@@ -1,3 +1,4 @@
+
 *{
       margin: 0px;
       padding: 0px;
@@ -27,7 +28,7 @@ body{
                rgba(0, 0, 0, 0.7)
              ),
              /* bottom, image */
-             /* url(https://images.unsplash.com/photo-1614030424754-24d0eebd46b2); */
+             url('./../images//back2.jpg');
          }
      
 

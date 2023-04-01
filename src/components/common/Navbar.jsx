@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './../../assets/css/navbar.css'
 import Box from '@mui/material/Box';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -15,8 +16,10 @@ import Avatar from '@mui/material/Avatar';
 import { useNavigate } from 'react-router-dom';
 import Loader from './Loader'
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
+import { useSelector } from 'react-redux';
 const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Order History', 'Dashboard', 'Logout'];
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -48,8 +51,6 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 }));
 
 
-
-
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
@@ -70,10 +71,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function SearchAppBar() {
 
   let navigate = useNavigate()
+  let cart = useSelector(ele=> ele.prd.cart)
    const [data, setData] = React.useState({
     ud:JSON.parse(window.localStorage.getItem('user')),
     validated:false 
    });
+    
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -81,7 +85,9 @@ export default function SearchAppBar() {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
+    
     setAnchorElUser(event.currentTarget);
+ 
   };
 
   const handleCloseNavMenu = () => {
@@ -89,13 +95,24 @@ export default function SearchAppBar() {
   };
 
   const handleCloseUserMenu = (setting) => {
-   debugger
+   
     if(setting.target.innerText=="Logout") {
       setAnchorElUser(null);
        window.localStorage.removeItem('user')
        window.localStorage.removeItem('token')
        navigate('/')
       }
+      
+      if(setting.target.innerText=="Order History") {
+        setAnchorElUser(null);
+         navigate('/orders')
+        }
+
+        if(setting.target.innerText=="Dashboard") {
+          setAnchorElUser(null);
+           navigate('/dashboard/'+data.ud.username)
+          }
+
   };
 
 React.useEffect(() => {
@@ -124,6 +141,8 @@ React.useEffect(() => {
             >
               <MenuIcon />
             </IconButton>
+
+
             <Typography
               variant="h6"
               noWrap
@@ -133,15 +152,19 @@ React.useEffect(() => {
               E-Commerce-Store
             </Typography>
         
-            
-              <LocalGroceryStoreIcon onClick={()=>{
+             
+            <LocalGroceryStoreIcon onClick={()=>{
                   navigate('/cart')
-              }}  />     {data.ud?data.ud.username:""} <Box sx={{ flexGrow: 0 ,  }}>
+              }}  /> 
+               {cart.length>0?  <span className="dot mr-2 text-center"
+               >  {cart.length} </span> :""}
+              {data.ud?data.ud.username:""} <Box sx={{ flexGrow: 0 ,  }}>
               <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+            
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt={data.ud?data.ud.username:""} src="/static/images/avatar/2.jpg" 
                   />
-  
+
                 </IconButton>
               </Tooltip>
                

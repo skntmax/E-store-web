@@ -25,6 +25,16 @@ function Login() {
   const {login , signup }  = state  
   
 
+   React.useEffect(() => {
+   debugger
+     if(window.localStorage.getItem('user')) {
+      let user = JSON.parse(window.localStorage.getItem('user'))
+       window.location.href="/dashboard/"+user.username
+     }
+     
+   }, [])
+
+
 
   function getInputHandler(e) {  
     const { name , value }  = e.target 
@@ -44,21 +54,23 @@ function Login() {
      }}>
 
         <h2 className='text-capitalize hover_button' >   <span className= {login?'active_button':""}   
-         onClick={()=>{
+         style={login?{color:"white"}:{color:"green"}}
+        onClick={()=>{
            setState( {
              ...state , login:true , signup:false  
            })
          }} 
-        >  LOGIN  </span>/ 
+        >  { (login && !signup)?">":""} LOGIN  </span>/ 
         
         <span 
         className={signup?'active_button':"" }
+        style={signup?{color:"white"}:{color:"green"}}
         onClick={()=>{
           setState( {
             ...state , login:false , signup:true  
            })
         }} 
-        > SIGNUP </span> </h2>
+        >  {(Singup && !login )?">":""}SIGNUP </span> </h2>
    
     {login?
 

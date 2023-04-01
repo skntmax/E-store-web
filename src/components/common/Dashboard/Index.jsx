@@ -6,11 +6,15 @@ import axios from 'axios'
 import '../../../assets/css/hompage.css'
 
 import { useDispatch, useSelector } from 'react-redux'
+import constant from '../../../Redux_store/constant'
+
+
 export default function Index() {
 
+  
   let dispatch = useDispatch()
    let prd = useSelector(ele=> ele.prd.list)
-
+   
    React.useEffect(() => {
         
         if(!window.localStorage.getItem('user')) {
@@ -18,13 +22,15 @@ export default function Index() {
         }
 
           (async function(){
+             
             let fakeProducts  =await axios.get('https://fakestoreapi.com/products/')           
-              dispatch({
-                 type:"PRODUCTS" ,
+            dispatch({
+                 type:constant.PRODUCTS ,
                  payload:{
-                   data:fakeProducts.data
+                   data:fakeProducts.data.map((ele,ind)=>  { return {...ele, qty:1} } )
                  }
               }) 
+              
           })() 
         
          return () => {
@@ -41,13 +47,14 @@ export default function Index() {
        <div className="homepage_card" >
         
         {prd!=undefined && prd.map((ele,index)=>{
-           return <Cards item={ele} /> 
+           return <Cards item={ele}  /> 
         })} 
        
        </div>
     
         </React.Fragment>
   )
-}
 
- 
+
+}
+  

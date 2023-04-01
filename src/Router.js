@@ -4,7 +4,8 @@ import Error from './Error'
 import './assets/css/login.css'
 import Temp from "./Temp";
 import Dashboard from './components/common/Dashboard/Index'
-
+import Cart from "./components/cart/Cart";
+import OrderHistory from "./components/OrderHistory/OrderHistory";
 
 const router = createBrowserRouter([
     {
@@ -25,8 +26,26 @@ const router = createBrowserRouter([
       path: "/Dashboard/:username",
       element: <Dashboard />,
       exact:true,
-      // errorElement: <Error /> ,
+      errorElement: <Error /> ,
     },
+
+
+    {
+      path: "/cart",
+      element: <Cart />,
+      exact:true,
+      errorElement: <Error /> ,
+    },
+
+    {
+      path: "/orders",
+      element: <OrderHistory />,
+      exact:true,
+      errorElement: <Error /> ,
+    },
+
+
+
 
 
 

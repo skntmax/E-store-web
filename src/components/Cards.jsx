@@ -14,6 +14,15 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Button from '@mui/material/Button';
+import SendIcon from '@mui/icons-material/Send';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useDispatch, useSelector } from 'react-redux';
+import constant from '../Redux_store/constant';
+import moment from 'moment'
+import CartTotal from './Grid/CartTotal'
+
+
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -27,19 +36,46 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function RecipeReviewCard(props) {
+    
     const {item} = props 
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
+    let cart = useSelector(ele=> ele.prd.cart) 
+   const [expanded, setExpanded] = React.useState(false);
+   let dispatch  = useDispatch()
+ 
+ const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+  const addtoCart =(item)=>{
+
+   dispatch({
+      type:constant.CART,
+      payload:{
+        data:item
+      }
+    })
+ 
+   }
+
+
+   const  removeToCart= (id)=> {
+      
+     dispatch({
+      type:constant.REMOVE_TO_CART,
+      payload:{
+        data:id
+      }
+    })
+   }
+   
   return (
-    <Card sx={{ maxWidth: 345 , margin:"10px" }}>
-      <CardHeader
+
+     <Card sx={{ maxWidth: 345 , margin:"10px" ,position: "relative" }}>
+
+     <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
+          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" >
+            {item.title}
           </Avatar>
         }
         action={
@@ -48,11 +84,17 @@ export default function RecipeReviewCard(props) {
           </IconButton>
         }
         title={item.title}
-        subheader="September 14, 2016"
+        subheader={ moment().format('ll') }
       />
+       
       <CardMedia
         component="img"
-        height="200"
+        sx={{
+          justifyContent:"center",
+          width:" 100%",
+          height: "200px",
+          objectFit: "contain"
+        }}
         image={item.image}
         alt="Paella dish"
       />
@@ -61,13 +103,39 @@ export default function RecipeReviewCard(props) {
          {item.description}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
+      
+      <CardActions disableSpacing sx={{
+         
+      }}><div 
+      style={{
+        position: "absolute",
+        bottom: "-6px",
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "20px",
+      }}
+       >
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+          <FavoriteIcon  />
         </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
+        
+         {!cart.some((ele,ind)=> ele.id==item.id)?<Button variant="contained"
+         onClick={()=>{
+            addtoCart(item)
+         }}
+        endIcon={ <ShoppingCartIcon size="small"  />}>
+         add to Cart
+      </Button>: <Button 
+      variant="outlined" color="error"
+      onClick={()=>{
+         removeToCart(item.id)
+      }}
+     endIcon={ <ShoppingCartIcon size="small"  />}>
+      remove to cart
+   </Button> } 
+     </div>
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
@@ -77,35 +145,8 @@ export default function RecipeReviewCard(props) {
           <ExpandMoreIcon />
         </ExpandMore>
       </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>Method:</Typography>
-          <Typography paragraph>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set
-            aside for 10 minutes.
-          </Typography>
-          <Typography paragraph>
-            Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over
-            medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring
-            occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a
-            large plate and set aside, leaving chicken and chorizo in the pan. Add
-            pimentón, bay leaves, garlic, tomatoes, onion, salt and pepper, and cook,
-            stirring often until thickened and fragrant, about 10 minutes. Add
-            saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-          </Typography>
-          <Typography paragraph>
-            Add rice and stir very gently to distribute. Top with artichokes and
-            peppers, and cook without stirring, until most of the liquid is absorbed,
-            15 to 18 minutes. Reduce heat to medium-low, add reserved shrimp and
-            mussels, tucking them down into the rice, and cook again without
-            stirring, until mussels have opened and rice is just tender, 5 to 7
-            minutes more. (Discard any mussels that don&apos;t open.)
-          </Typography>
-          <Typography>
-            Set aside off of the heat to let rest for 10 minutes, and then serve.
-          </Typography>
-        </CardContent>
-      </Collapse>
+
+          
     </Card>
   );
 }
