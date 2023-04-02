@@ -27,7 +27,8 @@ function products (state = {cart:[] , list:[] , liked:[] , order_history:[]}   ,
 
 
     case constant.ORDER_HISTORY :
-    return { ...state , order_history:[...state.order_history ,action.payload.data ]  }
+       let fitered_prd  = [...new Set([...state.order_history ,action.payload.data ])] 
+       return { ...state , order_history: fitered_prd  }
     
     case constant.CLEAR_CART :
         return { ...state , cart:[]  }
