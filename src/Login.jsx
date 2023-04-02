@@ -70,7 +70,7 @@ function Login() {
             ...state , login:false , signup:true  
            })
         }} 
-        >  {(Singup && !login )?">":""}SIGNUP </span> </h2>
+        >  { (Singup && !login )? ">":""}SIGNUP </span> </h2>
    
     {login?
 
@@ -140,10 +140,13 @@ function Login() {
                 data:res.result
               }
             })
-
-            navigate(`/dashboard/${res.result.username}`)
-
-          }
+             debugger
+             if(res.result.isAdmin=='false')
+                  navigate(`/dashboard/${res.result.username}`)
+            else{
+               navigate('dashboard/admin/'+res.result.username)
+            }
+                }
         else if(res.status==404 ){
           setState({...state , waiting:false  })
            window.alert(res.message)   

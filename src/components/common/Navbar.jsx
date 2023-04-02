@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React  from 'react';
 import './../../assets/css/navbar.css'
 import Box from '@mui/material/Box';
 import { styled, alpha } from '@mui/material/styles';
@@ -15,10 +15,12 @@ import MenuItem from '@mui/material/MenuItem';
 import Avatar from '@mui/material/Avatar';
 import { useNavigate } from 'react-router-dom';
 import Loader from './Loader'
+import { useParams } from 'react-router-dom';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import { useSelector } from 'react-redux';
+
 const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Order History', 'Dashboard', 'Logout'];
+// const settings = [ 'Profile', 'Order History', 'Dashboard', , 'Logout'];
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -69,7 +71,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
+   
+const [settings, setSettings] = React.useState([  'Order History', 'Dashboard', , 'Logout']);
 
+  let params= useParams()
   let navigate = useNavigate()
   let cart = useSelector(ele=> ele.prd.cart)
    const [data, setData] = React.useState({
@@ -109,17 +114,27 @@ export default function SearchAppBar() {
         }
 
         if(setting.target.innerText=="Dashboard") {
-          setAnchorElUser(null);
-           navigate('/dashboard/'+data.ud.username)
-          }
+        setAnchorElUser(null);
+          navigate('/dashboard/'+data.ud.username)
+        }
 
-  };
+      if(setting.target.innerText=="Admin Dashboard") {
+        setAnchorElUser(null);
+          navigate('/dashboard/admin/'+data.ud.username)
+        }
+  
+          };
 
 React.useEffect(() => {
 
  if(window.localStorage.getItem('user')) {
     setData({...data,validated:true})
-   }
+    if(data.ud.isAdmin=="true"){
+      if(!settings.includes("Admin Dashboard"))
+              settings.unshift("Admin Dashboard") 
+    }
+  }
+
   
   }, [])
 
@@ -127,8 +142,6 @@ React.useEffect(() => {
       return <Loader />
   }else{
     return ( 
-     
-
        
       <Box sx={{ flexGrow: 1  }}>
         <AppBar position="relative">
@@ -143,7 +156,6 @@ React.useEffect(() => {
               <MenuIcon />
             </IconButton>
 
-
             <Typography
               variant="h6"
               noWrap
@@ -153,7 +165,6 @@ React.useEffect(() => {
               E-Commerce-Store
             </Typography>
         
-             
             <LocalGroceryStoreIcon onClick={()=>{
                   navigate('/cart')
               }}  /> 
@@ -169,7 +180,6 @@ React.useEffect(() => {
                 </IconButton>
               </Tooltip>
                
-  
               <Menu
                 sx={{ mt: '45px' }}
                 id="menu-appbar"
@@ -186,11 +196,14 @@ React.useEffect(() => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => ( 
+
+                { settings.map((setting) => ( 
                   <MenuItem key={setting} onClick={(setting)=> handleCloseUserMenu(setting) }>
-                    <Typography textAlign="center">{setting}</Typography>
+                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
+                   
                 ))}
+                 
               </Menu>
             </Box>
   

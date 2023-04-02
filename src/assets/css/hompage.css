@@ -3,5 +3,8 @@
      display: flex;
      flex-wrap: wrap;
      justify-content: center;
-  
+}
+
+.users_list{
+     text-decoration: none;
 }

@@ -6,7 +6,8 @@ import Temp from "./Temp";
 import Dashboard from './components/common/Dashboard/Index'
 import Cart from "./components/cart/Cart";
 import OrderHistory from "./components/OrderHistory/OrderHistory";
-
+import AdminDasboard from './components/Admin/Dashboard/AdminDashboard'
+import UserDetail from "./components/Admin/UserDetail";
 const router = createBrowserRouter([
     {
       path: "/",
@@ -29,7 +30,13 @@ const router = createBrowserRouter([
       errorElement: <Error /> ,
     },
 
-    
+    {
+      path: "/dashboard/admin/:username",
+      element: <AdminDasboard />,
+      exact:true,
+      errorElement: <Error /> ,
+    },
+
     {
       path: "/cart",
       element: <Cart />,
@@ -45,6 +52,12 @@ const router = createBrowserRouter([
       errorElement: <Error /> ,
     },
 
+    {
+      path: "/user_detail/:username",
+      element: <UserDetail />,
+      exact:true,
+      errorElement: <Error /> ,
+    },
 
 
 

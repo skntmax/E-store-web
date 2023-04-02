@@ -56,6 +56,20 @@ function userData (state ={}, action) {
 
 
 
+function adminData (state = { u_list:[] }, action) {
+
+    switch(action.type) { 
+        case constant.USERS_LIST :
+          return {...state ,u_list:action.payload.data }
+        default:
+            return {...state }
+    } 
+ }
+ 
+
+
+
 export default combineReducers({
-     prd:products , logged_in_user_data:userData
+     prd:products , logged_in_user_data:userData ,
+     admin_user_data : adminData
 })

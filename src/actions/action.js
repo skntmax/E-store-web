@@ -50,9 +50,7 @@ export async function  userLogin( state ) {
                     return 
                 }
           }
-           
-         debugger
-         
+                 
         let url = process.env.REACT_APP_BASE_URL+"/login"
          let login_status =  await axios.post( url, model)
             if(login_status)
