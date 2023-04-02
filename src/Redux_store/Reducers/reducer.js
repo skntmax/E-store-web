@@ -27,9 +27,12 @@ function products (state = {cart:[] , list:[] , liked:[] , order_history:[]}   ,
 
 
     case constant.ORDER_HISTORY :
-   
     return { ...state , order_history:[...state.order_history ,action.payload.data ]  }
     
+    case constant.CLEAR_CART :
+        return { ...state , cart:[]  }
+        
+
 
 
            default:

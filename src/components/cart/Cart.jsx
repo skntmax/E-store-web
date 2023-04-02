@@ -23,6 +23,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
 import { getAuthHeader } from '../../utils';
+import { useNavigate } from 'react-router-dom';
+import constant from '../../Redux_store/constant';
 
 
 
@@ -48,7 +50,8 @@ const bull = (
 
 
 function Cart() {
- 
+
+  let navigate = useNavigate()
   let dispatch = useDispatch()
   const [open, setOpen] = React.useState(true);
   let cart = useSelector(ele=> ele.prd.cart)
@@ -56,7 +59,7 @@ function Cart() {
    React.useEffect(() => {
         
         if(!window.localStorage.getItem('user')) {
-             window.location.href="/"
+             navigate("/")
         }
         
          return () => {
@@ -64,27 +67,29 @@ function Cart() {
         };
     }, [])
      
-
-
-
 const buyProducts =async ()=>{
 
   let prd_list =cart 
   let total_price = prd_list.reduce((acc,ele,inde)=>{return (acc+ele.price*ele.qty)  },0 )
-   let model = { prd_list ,  total_price}
+   let model = { prd_list ,  total_price }
 
    let buy_prd = await axios.post(`${process.env.REACT_APP_BASE_URL}/products/buyproduct` ,  {
      model
     } , getAuthHeader( ) )
-
       let { data}   = buy_prd
-
        if(data) {
-       if(data.status==200) 
-        window.alert(data.message)
+       if(data.status==200) {
+        dispatch({
+           type:constant.CLEAR_CART,
+           payload:{
+             data:null
+           }          
+        })
+         window.alert(data.message)
+         navigate('/orders') 
+       } 
         else
             window.alert(data.message)
-
       }
 
 } 

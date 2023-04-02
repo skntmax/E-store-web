@@ -36,43 +36,44 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function RecipeReviewCard(props) {
-    
-    const {item} = props 
-    let cart = useSelector(ele=> ele.prd.cart) 
-   const [expanded, setExpanded] = React.useState(false);
-   let dispatch  = useDispatch()
+
+  const { item  ,ordered_prd_history } = props
+  let cart = useSelector(ele => ele.prd.cart)
  
- const handleExpandClick = () => {
+  const [expanded, setExpanded] = React.useState(false);
+  let dispatch = useDispatch()
+
+  const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  const addtoCart =(item)=>{
+  const addtoCart = (item) => {
 
-   dispatch({
-      type:constant.CART,
-      payload:{
-        data:item
+    dispatch({
+      type: constant.CART,
+      payload: {
+        data: item
       }
     })
- 
-   }
+
+  }
 
 
-   const  removeToCart= (id)=> {
-      
-     dispatch({
-      type:constant.REMOVE_TO_CART,
-      payload:{
-        data:id
+  const removeToCart = (id) => {
+
+    dispatch({
+      type: constant.REMOVE_TO_CART,
+      payload: {
+        data: id
       }
     })
-   }
-   
+  }
+
   return (
 
-     <Card sx={{ maxWidth: 345 , margin:"10px" ,position: "relative" }}>
-
-     <CardHeader
+    <Card sx={{ maxWidth: 345, margin: "10px", position: "relative" }}>
+    
+      <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" >
             {item.title}
@@ -84,65 +85,67 @@ export default function RecipeReviewCard(props) {
           </IconButton>
         }
         title={item.title}
-        subheader={ moment().format('ll') }
+        subheader={moment().format('ll')}
       />
-       
+
       <CardMedia
         component="img"
         sx={{
-          justifyContent:"center",
-          width:" 100%",
+          justifyContent: "center",
+          width: " 100%",
           height: "200px",
           objectFit: "contain"
         }}
         image={item.image}
         alt="Paella dish"
       />
-      <CardContent sx={{
 
-        marginBottom:"20px"
+      <CardContent sx={{
+        marginBottom: "20px"
       }}>
         <Typography variant="body2" color="text.secondary">
-         {item.description}
+          {item.description}
         </Typography>
       </CardContent>
-      
+
       <CardActions disableSpacing sx={{
-         
-      }}><div 
-      style={{
-        position: "absolute",
-        bottom: "-6px",
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "20px",
-      }}
-       >
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon  />
-        </IconButton>
+
         
-         {!cart.some((ele,ind)=> ele.id==item.id)?<Button variant="contained"
-         onClick={()=>{
-            addtoCart(item)
-         }}
-        endIcon={ <ShoppingCartIcon size="small"  />}>
-         add to Cart
-      </Button>: <Button 
-      variant="outlined" color="error"
-      onClick={()=>{
-         removeToCart(item.id)
-      }}
-     endIcon={ <ShoppingCartIcon size="small"  />}>
-      remove to cart
-   </Button> } 
-     </div>
-        
+      }}><div
+        style={{
+          position: "absolute",
+          bottom: "-6px",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "20px",
+        }}
+      >
+          <IconButton aria-label="add to favorites">
+            <FavoriteIcon />
+          </IconButton>
+
+          {!cart.some((ele, ind) => ele.id == item.id) ? <Button variant="contained"
+            onClick={() => {
+              addtoCart(item)
+            }}
+            endIcon={<ShoppingCartIcon size="small" />}>
+            add to Cart
+          </Button> :
+      <Button
+                variant="outlined" color="error"
+                onClick={() => {
+                  removeToCart(item.id)
+                }}
+                endIcon={<ShoppingCartIcon size="small" />}>
+                remove to cart
+              </Button>}
+        </div>
+
       </CardActions>
 
-          
+
     </Card>
   );
 }

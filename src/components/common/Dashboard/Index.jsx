@@ -7,18 +7,20 @@ import '../../../assets/css/hompage.css'
 
 import { useDispatch, useSelector } from 'react-redux'
 import constant from '../../../Redux_store/constant'
+import { useNavigate } from 'react-router-dom'
 
 
 export default function Index() {
 
-  
+  let navigate = useNavigate()
   let dispatch = useDispatch()
    let prd = useSelector(ele=> ele.prd.list)
+
    
    React.useEffect(() => {
         
         if(!window.localStorage.getItem('user')) {
-             window.location.href="/"
+          navigate("/")
         }
 
           (async function(){
@@ -53,7 +55,7 @@ export default function Index() {
        <div className="homepage_card" >
         
         {prd!=undefined && prd.map((ele,index)=>{
-           return <Cards item={ele}  /> 
+          return <Cards item={ele}  /> 
         })} 
        
        </div>

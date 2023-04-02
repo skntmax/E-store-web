@@ -31,6 +31,7 @@ function OrderHistory() {
 
         //  if( order_history.length>0?(!order_history.some(ele=>ele.user.email==ud.email)):true ) {
             let ordered_prd  = await axios.get(`${process.env.REACT_APP_BASE_URL}/products/buyproduct-history` , getAuthHeader() )           
+         debugger
             if(ordered_prd.data.status==200){
                 dispatch({
                     type:constant.ORDER_HISTORY ,

@@ -29,13 +29,14 @@ const router = createBrowserRouter([
       errorElement: <Error /> ,
     },
 
-
+    
     {
       path: "/cart",
       element: <Cart />,
       exact:true,
       errorElement: <Error /> ,
     },
+    
 
     {
       path: "/orders",
