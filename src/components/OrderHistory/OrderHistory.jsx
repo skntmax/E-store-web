@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
 import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
-
+import CartHistoryList from './CartHistoryList'
 
 function OrderHistory() {
   
@@ -65,9 +65,9 @@ function OrderHistory() {
       
        <div className="homepage_card" >
         
-       {order_history.length >0 &&  order_history.map((ele,index)=>{
+       { order_history.length >0 &&  order_history.map((ele,index)=>{
             return ele[index]?.products.map((item2,ind2)=>{
-                     return <Cards item={item2}  /> 
+                     return <CartHistoryList item={item2}  /> 
         })
        })} 
 

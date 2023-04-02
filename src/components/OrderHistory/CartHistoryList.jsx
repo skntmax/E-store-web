@@ -18,9 +18,8 @@ import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useDispatch, useSelector } from 'react-redux';
-import constant from '../Redux_store/constant';
 import moment from 'moment'
-import CartTotal from './Grid/CartTotal'
+import constant from '../../Redux_store/constant';
 
 
 
@@ -98,10 +97,7 @@ export default function RecipeReviewCard(props) {
         image={item.image}
         alt="Paella dish"
       />
-      <CardContent sx={{
-
-        marginBottom:"20px"
-      }}>
+      <CardContent>
         <Typography variant="body2" color="text.secondary">
          {item.description}
         </Typography>
@@ -118,28 +114,20 @@ export default function RecipeReviewCard(props) {
         alignItems: "center",
         justifyContent: "space-between",
         padding: "20px",
+        
       }}
        >
         <IconButton aria-label="add to favorites">
           <FavoriteIcon  />
         </IconButton>
         
-         {!cart.some((ele,ind)=> ele.id==item.id)?<Button variant="contained"
-         onClick={()=>{
-            addtoCart(item)
-         }}
-        endIcon={ <ShoppingCartIcon size="small"  />}>
-         add to Cart
-      </Button>: <Button 
-      variant="outlined" color="error"
-      onClick={()=>{
-         removeToCart(item.id)
-      }}
-     endIcon={ <ShoppingCartIcon size="small"  />}>
-      remove to cart
-   </Button> } 
+        <Typography variant="h6" component="h2">
+        Ready To Dispatch
+      </Typography>
+
      </div>
-        
+
+      
       </CardActions>
 
           

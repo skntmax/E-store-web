@@ -23,13 +23,19 @@ export default function Index() {
 
           (async function(){
              
-            let fakeProducts  =await axios.get('https://fakestoreapi.com/products/')           
-            dispatch({
-                 type:constant.PRODUCTS ,
-                 payload:{
-                   data:fakeProducts.data.map((ele,ind)=>  { return {...ele, qty:1} } )
-                 }
-              }) 
+            let fakeProducts  =await axios.get(`${process.env.REACT_APP_BASE_URL}/get-products`)
+             const {data} = fakeProducts
+             if(data.status==200) {
+              dispatch({
+                type:constant.PRODUCTS ,
+                payload:{
+                  data:data.result
+                }
+             }) 
+             } else{
+               
+             }          
+
               
           })() 
         
